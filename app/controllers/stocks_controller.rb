@@ -1,8 +1,21 @@
 class StocksController < ApplicationController
   
   def search
-    @stock = Stock.new_from_lookup(params[:stock])
-    render "users/my_portfolio"
+    if params[:stock].present?
+      @stock = Stock.new_from_lookup(params[:stock])
+      if @stock
+        respond_to do |format|
+          #format.html {render partial: 'users/result'}
+          format.js {render partial: 'users/result'}
+        end
+      else
+        flash[:danger] = "Invalid symbol"
+        redirect_to my_portfolio_path
+      end
+    else
+      flash[:danger] = "Search string cannot be empty"
+      redirect_to my_portfolio_path
+    end
   end
   
 end
