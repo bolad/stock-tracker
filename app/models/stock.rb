@@ -13,7 +13,7 @@ class Stock < ActiveRecord::Base
       
       #Construct a new stock object
       new(name: looked_up_stock.company_name, ticker: looked_up_stock.symbol, last_price: looked_up_stock.latest_price)
-    rescue Exception => e
+      rescue Exception => e
       return nil
     end
   end
